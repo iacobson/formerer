@@ -1,0 +1,23 @@
+<div class="mdl-card mdl-shadow--2dp">
+  <div class="mdl-card__title">
+    <h4 class="mdl-card__title-text">
+      Show/Hide Columns
+    </h4>
+  </div>
+
+  <div class="mdl-card__supporting-text">
+    <p>Choose which columns to hide and show from the fields present in the last submission received</p>
+    <%= form_for @conn, forms_form_columns_path(@conn, :update, @form), [name: :columns], fn f -> %>
+      <%= for field <- submission_fields(@submission) do %>
+        <%= label(f, field_key_as_atom(field), class: "mdl-switch mdl-js-switch") do %>
+          <%= checkbox(f, field_key_as_atom(field), class: "mdl-switch__input", value: Enum.member?(@form.columns, field)) %>
+          <span class="mdl-switch__label"><%= pretty_column_name(field) %></span>
+        <% end %>
+      <% end %>
+
+      <div class="align-center">
+        <%= submit "Select", class: "mdl-button mdl-button--raised mdl-button--colored update-columns", data: [behaviour: "submit-form"] %>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,17 @@
+<%= if logged_in?(@conn) do %>
+  <div class="mdl-layout__drawer sidenav-menu">
+    <span class="mdl-layout-title">Your Forms</span>
+    <nav class="mdl-navigation">
+      <%= for form <- user_forms(@conn) do %>
+        <%= link to: forms_path(@conn, :show, form), class: "mdl-navigation__link" do %>
+          <%= form.name %>
+          <i class="material-icons">book</i>
+        <% end %>
+      <% end %>
+      <%= link to: forms_path(@conn, :new), class: "mdl-navigation__link new-form-link" do %>
+        New Form
+        <i class="material-icons">add_circle</i>
+      <% end %>
+    </nav>
+  </div>
+<% end %>

@@ -1,0 +1,31 @@
+<div class="mdl-grid">
+  <div class="mdl-cell mdl-cell--4-col"></div>
+  <div class="mdl-cell mdl-card mdl-shadow--2dp mdl-cell--4-col">
+    <div class="mdl-card__title">
+      <h2 class="mdl-card__title-text">New Form</h2>
+    </div>
+
+    <div class="mdl-card__supporting-text">
+
+      <%= form_for @changeset, forms_path(@conn, :create), fn f -> %>
+
+        <%= if f.errors != [] do %>
+          <div class='alert'>
+            <ul>
+              <%= for { attr, message } <- f.errors do %>
+                <li><%= humanize(attr) %> <%= message %></li>
+              <% end %>
+          </div>
+        <% end %>
+
+        <div class='mdl-textfield mdl-js-textfield'>
+          <%= text_input f, :name, class: "mdl-textfield__input" %>
+          <label class='mdl-textfield__label'>Name</label>
+        </div>
+
+        <%= submit "Create", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--colored" %>
+      <% end %>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,16 @@
+<header class="mdl-layout__header">
+  <div class="mdl-layout__header-row">
+    <span class="mdl-layout-title">Formerer</span>
+    <div class="mdl-layout-spacer"></div>
+
+    <nav class="mdl-navigation">
+      <%= if logged_in?(@conn) do %>
+        <%= current_user(@conn).email %>
+        <%= link "Logout", to: session_path(@conn, :delete), method: :delete, class: "mdl-navigation__link" %>
+      <% else %>
+        <%= link "Login", to: session_path(@conn, :new), class: "mdl-navigation__link" %>
+        <%= link "Register", to: users_path(@conn, :new), class: "mdl-navigation__link" %>
+      <% end %>
+    </nav>
+  </div>
+</header>

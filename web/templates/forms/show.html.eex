@@ -1,0 +1,44 @@
+<div class="mdl-grid">
+  <div class="mdl-cell mdl-cell--3-col"></div>
+  <div class="mdl-cell mdl-card mdl-shadow--2dp mdl-cell--6-col">
+    <div class="mdl-card__title">
+      <h4 class="mdl-card__title-text">
+        Form -&nbsp;
+        <span data-token="<%= get_csrf_token %>" data-url="<%= forms_path(@conn, :update, @form) %>" data-behaviour="form-name">
+          <%= @form.name %>
+        </span>
+      </h4>
+    </div>
+
+    <div class="mdl-card__supporting-text">
+      <div>
+        <div class="mdl-textfield form-endpoint-url">
+          <input id="form-endpoint-url" type="text" class="mdl-textfield__input" disabled value="<%= form_submissions_url(@conn, :create, @form.identifier) %>" />
+        </div>
+        <button id="endpoint-copy-button" data-behaviour="clipboard-copy" data-clipboard-target="#form-endpoint-url" class="mdl-button mdl-button--fab mdl-button--mini-fab mdl-button--colored">
+          <i class="material-icons">content_copy</i>
+        </button>
+      </div>
+      <p class='copied-notice'>Copied!</p>
+    </div>
+
+    <div class="mdl-card__menu">
+      <button class="mdl-button mdl-button--icon" data-behaviour="edit-form-name">
+        <i class="material-icons">edit</i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="mdl-grid">
+  <div class="mdl-cell mdl-cell--3-col"></div>
+  <div class="mdl-cell mdl-card submissions-card mdl-shadow--2dp mdl-cell--6-col">
+    <%= if Enum.any?(@form.submissions) do %>
+      <%= render Formerer.SubmissionsView, "submissions.html", conn: @conn, form: @form, submissions: @form.submissions %>
+    <% else %>
+      <div class="mdl-card__supporting-text">
+        <p class="advice-text">You've not had any submissions yet, submit a form using the above URL to see it here</p>
+      </div>
+    <% end %>
+  </div>
+</div>

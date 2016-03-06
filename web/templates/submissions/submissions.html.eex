@@ -1,0 +1,40 @@
+<div class="mdl-card__title">
+  <h4 class="mdl-card__title-text">Submissions</h4>
+</div>
+
+<div class="mdl-card__supporting-text">
+  <table class="mdl-data-table submissions">
+    <thead>
+      <%= for key <- selected_columns(@form) do %>
+        <th><%= pretty_column_name(key) %></th>
+      <% end %>
+      <th>
+        <%= link to: forms_form_columns_path(@conn, :edit, @form), data: [behaviour: "dialog"] , class: "mdl-button mdl-button--icon" do %>
+          <i class="material-icons">settings</i>
+        <% end %>
+      </th>
+    </thead>
+    <tbody>
+      <%= for submission <- @submissions do %>
+        <tr data-id="<%= submission.id %>">
+          <%= for key <- selected_columns(@form) do %>
+            <td><%= column_value(submission, key) %></td>
+          <% end %>
+          <td class='submission-actions'>
+            <button data-behaviour="toggle-submission-details" class='mdl-button mdl-button--raised mdl-button--colored'>Details</button>
+          </td>
+        </tr>
+        <tr class='submission-details' data-details-for="<%= submission.id %>">
+          <td colspan="<%= column_count(@form) + 1 %>">
+            <%= for { key, value } <- all_fields(submission) do %>
+              <p>
+                <strong><%= pretty_column_name(key) %>: </strong>
+                <%= detail_value(value) %>
+              </p>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
