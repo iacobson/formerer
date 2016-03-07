@@ -5,8 +5,6 @@ defmodule Formerer.RegistrationTest do
   use ExUnit.Case
   use Hound.Helpers
 
-  alias Formerer.UserFactory
-
   hound_session
 
   test "user can register" do
