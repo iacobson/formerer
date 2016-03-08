@@ -1,4 +1,4 @@
-defmodule Formerer.RegistrationTest do
+defmodule Formerer.Feature.RegistrationTest do
   import String, only: [contains?: 2]
   import Formerer.UserFactory, only: [create: 1]
 
