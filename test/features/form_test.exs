@@ -1,6 +1,6 @@
 defmodule Formerer.Feature.FormTest do
   import String, only: [contains?: 2]
-  import Formerer.UserFactory
+  alias Formerer.{UserFactory, FormFactory}
 
   use ExUnit.Case
   use Hound.Helpers
@@ -8,7 +8,7 @@ defmodule Formerer.Feature.FormTest do
   hound_session
 
   setup_all do
-    {:ok, user: create(:user)}
+    {:ok, user: UserFactory.create(:user)}
   end
 
   test "user can create a new form", test_data do
@@ -23,6 +23,33 @@ defmodule Formerer.Feature.FormTest do
 
     assert contains?(visible_page_text, "Form Created")
     assert contains?(visible_page_text, form_name)
+  end
+
+  test "user can navigate to form and view the endpoint url", test_data do
+    form = FormFactory.create(:form, [user: test_data[:user]])
+    login(test_data[:user].email, "ins3cure")
+
+    find_element(:css, ".mdl-layout__drawer-button i") |> click
+    find_element(:partial_link_text, form.name) |> click
+
+    assert contains?(visible_page_text, form.name)
+
+    endpoint_url = find_element(:id, "form-endpoint-url") |> attribute_value(:value)
+    assert contains?(endpoint_url, "/form/#{form.identifier}")
+  end
+
+  test "user can rename the form", test_data do
+    form = FormFactory.create(:form, [user: test_data[:user]])
+    login(test_data[:user].email, "ins3cure")
+    navigate_to("/forms/#{form.id}")
+
+    find_element(:css, "[data-behaviour=\"edit-form-name\"]") |> click
+    send_keys(:backspace)
+    send_text("Wow Such Form")
+    send_keys(:enter)
+
+    refresh_page
+    assert contains?(visible_page_text, "Wow Such Form")
   end
 
   defp login(username, password) do
