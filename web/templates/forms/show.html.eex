@@ -42,3 +42,7 @@
     <% end %>
   </div>
 </div>
+
+<script>
+  window.formId = <%= @form.id %>;
+</script>
