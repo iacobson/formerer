@@ -11,6 +11,11 @@ defmodule Formerer.Form do
     timestamps
   end
 
+  # TODO: Temp for testing
+  def enabled_integrations(_form) do
+    [:slack]
+  end
+
   @required_fields ~w(name identifier)
   @optional_fields ~w()
 
