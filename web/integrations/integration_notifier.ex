@@ -6,13 +6,11 @@ defmodule Formerer.IntegrationNotifier do
   def notify_integrations(form, submission) do
     form
     |> Form.enabled_integrations
-    |> Enum.each(&(integration(&1)).(submission))
+    |> Enum.each(&(notify_integration(&1, submission, form)))
   end
 
-  defp integration(key) do
-    Keyword.fetch!([
-      slack: &Slack.notify/1
-    ], key)
+  defp notify_integration(:slack, submission, _form) do
+    Slack.notify(submission)
   end
 
 end
