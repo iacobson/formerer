@@ -1,17 +1,25 @@
 defmodule Formerer.Integration.Slack do
 
-  def notify(_submission) do
-    HTTPotion.post(url, [body: payload, stream_to: self])
+  def notify(form, submission) do
+    HTTPotion.post(url, [body: payload(form, submission), stream_to: self])
   end
 
-  defp payload do
+  defp payload(form, submission) do
     Poison.encode!(%{
-      text: "Test \n Messaaaaage!"
+      text: payload_text(form, submission)
     })
   end
 
+  defp payload_text(form, submission) do
+    start = "New submission for Form - " <> form.name
+
+    fields = "Email: fxn@fxndev.com\nMessage: Testerererer\n"
+
+    "#{start}\n\n```#{fields}```"
+  end
+
   defp url do
-    base_url <> "ENDPOINT/CODE/THANGS"
+    base_url <> "TEST_TOKEN"
   end
 
   defp base_url do
