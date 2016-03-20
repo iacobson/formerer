@@ -5,15 +5,11 @@ defmodule Formerer.Form do
     field :name, :string
     field :identifier, :string
     field :columns, {:array, :string}
+    field :integrations, {:array, :string}
     belongs_to :user, Formerer.User
     has_many :submissions, Formerer.Submission
 
     timestamps
-  end
-
-  # TODO: Temp for testing
-  def enabled_integrations(_form) do
-    [:slack]
   end
 
   @required_fields ~w(name identifier)

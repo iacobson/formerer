@@ -4,8 +4,7 @@ defmodule Formerer.IntegrationNotifier do
   alias Formerer.Integration.{Slack}
 
   def notify_integrations(form, submission) do
-    form
-    |> Form.enabled_integrations
+    form.integrations
     |> Enum.each(&(notify_integration(&1, form, submission)))
   end
 
