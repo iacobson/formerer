@@ -5,12 +5,13 @@ defmodule Formerer.UserAuthentication do
 
   def init(default), do: default
 
-  def call(conn, default) do
+  def call(conn, _default) do
     case current_user(conn) do
       nil ->
         conn
         |> put_flash(:info, "Not Authorized")
         |> redirect(to: "/")
+        |> halt()
       user ->
         assign(conn, :user, user)
     end

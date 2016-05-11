@@ -45,5 +45,4 @@ defmodule Formerer.UsersController do
         |> render("edit.html", changeset: changeset, user: user)
     end
   end
-
 end
