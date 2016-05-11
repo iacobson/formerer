@@ -8,6 +8,12 @@ defmodule Formerer.UserCreator do
     |> repo.insert()
   end
 
+  def update(changeset, repo) do
+    changeset
+    |> put_change(:password_digest, hashed_password(changeset.params["password"]))
+    |> repo.update()
+  end
+
   defp hashed_password(password) do
     hashpwsalt(password)
   end

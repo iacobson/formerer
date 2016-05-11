@@ -36,6 +36,7 @@ defmodule Formerer.Router do
 
     pipe_through :authenticate_user
     get "/dashboard", DashboardController, :index
+    resources "users", UsersController, only: [:edit, :update]
 
     resources "forms", FormsController, only: [:new, :create, :update, :show] do
       get "columns/edit", FormColumnsController, :edit
