@@ -13,7 +13,7 @@
           <div class='alert'>
             <ul>
               <%= for { attr, message } <- f.errors do %>
-                <li><%= humanize(attr) %> <%= message %></li>
+                <li><%= translate_error(humanize(attr)) %> <%= translate_error(message) %></li>
               <% end %>
           </div>
         <% end %>
