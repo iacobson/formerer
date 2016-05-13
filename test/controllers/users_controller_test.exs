@@ -22,4 +22,23 @@ defmodule Formerer.UsersControllerTest do
     assert checkpw("toos3cure", updated_user.password_digest)
   end
 
+  @tag email: "test@example.com", password: "ins3cure"
+  test "user cannot change the password if the old password is wrong", %{conn: conn, user: user} do
+    response = put(conn, users_path(conn, :update, user, user: %{old_password: "wrongpass", password: "toos3cure", confirm_password: "toos3cure"}))
+
+    assert html_response(response, 200)
+    updated_user = Repo.get(Formerer.User, user.id)
+
+    assert checkpw("ins3cure", updated_user.password_digest)
+  end
+
+  @tag email: "test@example.com", password: "ins3cure"
+  test "user cannot change the password if new password confirmation is wrong", %{conn: conn, user: user} do
+    response = put(conn, users_path(conn, :update, user, user: %{old_password: "ins3cure", password: "toos3cure", confirm_password: "wrongpass"}))
+
+    assert html_response(response, 200)
+    updated_user = Repo.get(Formerer.User, user.id)
+
+    assert checkpw("ins3cure", updated_user.password_digest)
+  end
 end
