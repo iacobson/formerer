@@ -26,6 +26,7 @@ defmodule Formerer.ConnCase do
       import Ecto.Query, only: [from: 1, from: 2]
 
       import Formerer.Router.Helpers
+      import Formerer.TestsHelpers.UserHelper
 
       # The default endpoint for testing
       @endpoint Formerer.Endpoint
