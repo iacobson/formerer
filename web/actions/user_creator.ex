@@ -4,6 +4,7 @@ defmodule Formerer.UserCreator do
 
   def create(changeset, repo) do
     changeset
+    |> put_change(:email, String.downcase(changeset.params["email"]))
     |> put_change(:password_digest, hashed_password(changeset.params["password"]))
     |> repo.insert()
   end
