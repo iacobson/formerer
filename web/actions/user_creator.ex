@@ -1,21 +1,27 @@
 defmodule Formerer.UserCreator do
   import Ecto.Changeset, only: [put_change: 3]
   import Comeonin.Bcrypt, only: [hashpwsalt: 1]
+  import Formerer.TokenGenerator, only: [new_token: 1]
 
   def create(changeset, repo) do
+    activation_token = new_token(64)
+  
     changeset
     |> put_change(:email, String.downcase(changeset.params["email"]))
-    |> put_change(:password_digest, hashed_password(changeset.params["password"]))
+    |> put_change(:password_digest, hashed_string(changeset.params["password"]))
+    |> put_change(:activation_token, activation_token)
+    |> put_change(:activation_digest, hashed_string(activation_token))
     |> repo.insert()
   end
 
   def update(changeset, repo) do
     changeset
-    |> put_change(:password_digest, hashed_password(changeset.params["password"]))
+    |> put_change(:password_digest, hashed_string(changeset.params["password"]))
     |> repo.update()
   end
 
-  defp hashed_password(password) do
+  defp hashed_string(password) do
     hashpwsalt(password)
   end
+
 end

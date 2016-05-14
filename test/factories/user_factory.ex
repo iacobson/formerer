@@ -7,7 +7,10 @@ defmodule Formerer.UserFactory do
   def factory(:user) do
     %User{
       email: sequence(:email, &"email#{&1}@example.com"),
-      password_digest: hashpwsalt("ins3cure")
+      password_digest: hashpwsalt("ins3cure"),
+      activated: true,
+      activation_digest: hashpwsalt("active_account"),
+      activated_at: Timex.DateTime.now
     }
   end
 

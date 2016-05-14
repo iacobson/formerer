@@ -19,7 +19,7 @@ defmodule Formerer.Mixfile do
   def application do
     [mod: {Formerer, []},
      applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :httpotion, :comeonin]]
+                    :phoenix_ecto, :postgrex, :httpotion, :comeonin, :timex, :timex_ecto]]
   end
 
   # Specifies which paths to compile per environment.
@@ -42,7 +42,9 @@ defmodule Formerer.Mixfile do
      {:ex_machina, "~> 0.6.1", only: :test},
      {:httpotion, "~> 2.2.0"},
      {:poison, "~> 1.5.2"},
-     {:cowboy, "~> 1.0"}]
+     {:cowboy, "~> 1.0"},
+     {:timex, "~> 2.1"},
+     {:timex_ecto, "~> 1.0"}]
   end
 
   # Aliases are shortcut or tasks specific to the current project.

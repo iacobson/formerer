@@ -4,10 +4,14 @@ defmodule Formerer.User do
 
   schema "users" do
     field :email, :string
+    field :password_digest, :string
+    field :activation_digest, :string
+    field :activated, :boolean
+    field :activated_at, Timex.Ecto.DateTime
     field :password, :string, virtual: true
+    field :activation_token, :string, virtual: true
     field :old_password, :string, virtual: true
     field :confirm_password, :string, virtual: true
-    field :password_digest, :string
 
     has_many :forms, Formerer.Form
     timestamps
