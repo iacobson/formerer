@@ -4,7 +4,7 @@ defmodule Formerer.Repo.Migrations.AddActivationToUsers do
   def change do
     alter table(:users) do
       add :activation_digest, :string
-      add :activated, :boolean, default: false
+      add :activated, :boolean, default: false, null: false
       add :activated_at, :datetime
     end
   end

@@ -5,7 +5,7 @@ defmodule Formerer.UserCreator do
 
   def create(changeset, repo) do
     activation_token = new_token(64)
-  
+
     changeset
     |> put_change(:email, String.downcase(changeset.params["email"]))
     |> put_change(:password_digest, hashed_string(changeset.params["password"]))
@@ -17,6 +17,13 @@ defmodule Formerer.UserCreator do
   def update(changeset, repo) do
     changeset
     |> put_change(:password_digest, hashed_string(changeset.params["password"]))
+    |> repo.update()
+  end
+
+  def activate_account(changeset, repo) do
+    changeset
+    |> put_change(:activated, true)
+    |> put_change(:activated_at, Timex.DateTime.now)
     |> repo.update()
   end
 

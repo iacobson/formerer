@@ -5,7 +5,7 @@ defmodule Formerer.UserPasswordChange do
   def check_old_password(changeset) do
     case changeset do
       %Ecto.Changeset{changes: %{old_password: old_password}} ->
-        match_old_password(old_password, changeset)
+        match_old_password?(old_password, changeset)
       _ ->
         changeset
     end
@@ -20,7 +20,7 @@ defmodule Formerer.UserPasswordChange do
     end
   end
 
-  defp match_old_password(old_password, changeset) do
+  defp match_old_password?(old_password, changeset) do
     password_digest = get_field(changeset, :password_digest)
     cond do
       checkpw(old_password, password_digest) ->

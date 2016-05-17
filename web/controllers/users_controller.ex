@@ -1,6 +1,6 @@
 defmodule Formerer.UsersController do
   use Formerer.Web, :controller
-  alias Formerer.{User, UserCreator}
+  alias Formerer.{User, UserCreator, Mailer, Integration.Email}
   import Formerer.Session, only: [current_user: 1]
 
   def new(conn, _) do
@@ -13,9 +13,12 @@ defmodule Formerer.UsersController do
 
     case UserCreator.create(changeset, Formerer.Repo) do
       { :ok, user } ->
+        Email.account_activation(conn, user)
+        |> Mailer.deliver()
+
         conn
         |> put_session(:current_user, user.id)
-        |> put_flash(:info, "Account created")
+        |> put_flash(:info, "Please check your email for account activation instructions")
         |> redirect(to: "/")
       { :error, changeset } ->
         conn
