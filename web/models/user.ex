@@ -1,7 +1,7 @@
 defmodule Formerer.User do
   use Formerer.Web, :model
   import Formerer.UserPasswordChange, only: [check_old_password: 1, check_new_password: 1]
-  import Formerer.UserActivation, only: [check_activation_token: 1]
+  import Formerer.AccountActivation, only: [check_activation_token: 1]
 
   schema "users" do
     field :email, :string

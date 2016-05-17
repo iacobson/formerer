@@ -1,4 +1,4 @@
-defmodule Formerer.UserActivation do
+defmodule Formerer.AccountActivation do
   import Plug.Conn
   import Phoenix.Controller, only: [redirect: 2, put_flash: 3]
   import Formerer.Session, only: [current_user: 1]

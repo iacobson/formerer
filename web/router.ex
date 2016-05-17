@@ -16,8 +16,8 @@ defmodule Formerer.Router do
     plug Formerer.UserAuthentication
   end
 
-  pipeline :activated_user do
-    plug Formerer.UserActivation
+  pipeline :activated_account do
+    plug Formerer.AccountActivation
   end
 
   scope "/form", Formerer do
@@ -41,7 +41,7 @@ defmodule Formerer.Router do
 
     pipe_through :authenticate_user
     get "/dashboard", DashboardController, :index
-    pipe_through :activated_user
+    pipe_through :activated_account
     resources "users", UsersController, only: [:edit, :update]
 
     resources "forms", FormsController, only: [:new, :create, :update, :show] do
