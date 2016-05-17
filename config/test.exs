@@ -21,3 +21,7 @@ config :formerer, Formerer.Repo,
 #modify hashing settings for test environment to speed up tests
 config :comeonin, :bcrypt_log_rounds, 4
 config :comeonin, :pbkdf2_rounds, 1
+
+
+config :formerer, Formerer.Mailer,
+  adapter: Swoosh.Adapters.Test
