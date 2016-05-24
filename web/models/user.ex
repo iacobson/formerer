@@ -1,16 +1,15 @@
 defmodule Formerer.User do
   use Formerer.Web, :model
   import Formerer.UserPasswordChange, only: [check_old_password: 1, check_new_password: 1]
-  import Formerer.AccountActivation, only: [check_activation_token: 1]
+  import Formerer.UserToken, only: [verify_token: 1]
 
   schema "users" do
     field :email, :string
     field :password_digest, :string
-    field :activation_digest, :string
+    field :token, :string
     field :activated, :boolean, default: false
     field :activated_at, Timex.Ecto.DateTime
     field :password, :string, virtual: true
-    field :activation_token, :string, virtual: true
     field :old_password, :string, virtual: true
     field :confirm_password, :string, virtual: true
 
@@ -44,9 +43,9 @@ defmodule Formerer.User do
     |> check_new_password()
   end
 
-  def activation_changeset(model, params \\ :empty) do
+  def token_changeset(model, params \\ :empty) do
     model
-    |> cast(params, ~w(activation_token), [])
-    |> check_activation_token()
+    |> cast(params, ~w(token), [])
+    |> verify_token()
   end
 end

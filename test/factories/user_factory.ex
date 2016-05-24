@@ -9,7 +9,7 @@ defmodule Formerer.UserFactory do
       email: sequence(:email, &"email#{&1}@example.com"),
       password_digest: hashpwsalt("ins3cure"),
       activated: true,
-      activation_digest: hashpwsalt("active_account"),
+      token: "usertoken",
       activated_at: Timex.DateTime.now
     }
   end
