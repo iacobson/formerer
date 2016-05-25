@@ -23,6 +23,7 @@ defmodule Formerer.UserCreator do
     changeset
     |> put_change(:activated, true)
     |> put_change(:activated_at, Timex.DateTime.now)
+    |> put_change(:token, nil)
     |> repo.update()
   end
 
