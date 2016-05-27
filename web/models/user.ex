@@ -34,13 +34,24 @@ defmodule Formerer.User do
     |> validate_length(:password, min: 7)
   end
 
+  def password_changeset(model, params \\ :empty) do
+    model
+    |> cast(params, ~w(old_password), [])
+    |> validate_length(:old_password, min: 7)
+    |> check_old_password()
+  end
+
+  def new_password_changeset(model, params \\ :empty) do
+    model
+    |> cast(params, ~w(password confirm_password), [])
+    |> validate_length(:password, min: 7)
+    |> check_new_password()
+  end
+
   def password_change_changeset(model, params \\ :empty) do
     model
-    |> cast(params, ~w(old_password password confirm_password), [])
-    |> validate_length(:old_password, min: 7)
-    |> validate_length(:password, min: 7)
-    |> check_old_password()
-    |> check_new_password()
+    |> password_changeset(params)
+    |> new_password_changeset(params)
   end
 
   def token_changeset(model, params \\ :empty) do
