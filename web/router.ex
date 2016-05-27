@@ -16,6 +16,10 @@ defmodule Formerer.Router do
     plug Formerer.UserAuthentication
   end
 
+  pipeline :activated_account do
+    plug Formerer.AccountActivation
+  end
+
   scope "/form", Formerer do
     pipe_through :api
 
@@ -33,14 +37,24 @@ defmodule Formerer.Router do
     get "/login", SessionController, :new
     post "/login", SessionController, :create
     delete "/logout", SessionController, :delete
+    resources "account_activation", AccountActivationController, only: [:edit]
 
     pipe_through :authenticate_user
     get "/dashboard", DashboardController, :index
+    pipe_through :activated_account
     resources "users", UsersController, only: [:edit, :update]
 
     resources "forms", FormsController, only: [:new, :create, :update, :show] do
       get "columns/edit", FormColumnsController, :edit
       post "columns/update", FormColumnsController, :update
+    end
+  end
+
+  if Mix.env == :dev do
+      scope "/dev" do
+      pipe_through [:browser]
+
+      forward "/mailbox", Plug.Swoosh.MailboxPreview, [base_path: "/dev/mailbox"]
     end
   end
 

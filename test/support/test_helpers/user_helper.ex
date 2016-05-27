@@ -9,6 +9,11 @@ defmodule Formerer.TestsHelpers.UserHelper do
     {:ok, conn: conn, user: user}
   end
 
+  def login_custom_user(conn, user) do
+    conn = Plug.Conn.assign(conn, :user, user)
+    {:ok, conn: conn, user: user}
+  end
+
   def login_user(conn) do
     user = create(:user)
     conn = Plug.Conn.assign(conn, :user, user)

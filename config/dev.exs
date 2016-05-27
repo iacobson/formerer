@@ -40,3 +40,6 @@ config :formerer, Formerer.Repo,
   database: "formerer_dev",
   hostname: "localhost",
   pool_size: 10
+
+config :formerer, Formerer.Mailer,
+  adapter: Swoosh.Adapters.Local

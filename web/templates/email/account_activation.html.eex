@@ -1,0 +1,2 @@
+Welcome to the Formerer! Click on the link below to activate your account:
+<%= link "Activate Account", to: account_activation_path(@conn, :edit, @user.token) %>

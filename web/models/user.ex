@@ -1,13 +1,17 @@
 defmodule Formerer.User do
   use Formerer.Web, :model
   import Formerer.UserPasswordChange, only: [check_old_password: 1, check_new_password: 1]
+  import Formerer.UserToken, only: [verify_token: 1]
 
   schema "users" do
     field :email, :string
+    field :password_digest, :string
+    field :token, :string
+    field :activated, :boolean, default: false
+    field :activated_at, Timex.Ecto.DateTime
     field :password, :string, virtual: true
     field :old_password, :string, virtual: true
     field :confirm_password, :string, virtual: true
-    field :password_digest, :string
 
     has_many :forms, Formerer.Form
     timestamps
@@ -37,5 +41,11 @@ defmodule Formerer.User do
     |> validate_length(:password, min: 7)
     |> check_old_password()
     |> check_new_password()
+  end
+
+  def token_changeset(model, params \\ :empty) do
+    model
+    |> cast(params, ~w(token), [])
+    |> verify_token()
   end
 end
