@@ -11,7 +11,7 @@ defmodule Formerer.AccountActivation do
       conn
     else
       conn
-      |> put_flash(:info, "Account not activated")
+      |> put_flash(:info, "Account not activated. Please check your email for activation instructions.")
       |> redirect(to: "/")
       |> halt()
     end

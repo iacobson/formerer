@@ -13,9 +13,9 @@ defmodule Formerer.UsersControllerTest do
 
   @tag email: "test@example.com", password: "ins3cure"
   test "user can change password providing correct info", %{conn: conn, user: user} do
-    response = put(conn, users_path(conn, :update, user, user: %{old_password: "ins3cure", password: "toos3cure", confirm_password: "toos3cure"}))
+    conn = put(conn, users_path(conn, :update, user, user: %{old_password: "ins3cure", password: "toos3cure", confirm_password: "toos3cure"}))
 
-    assert html_response(response, 302)
+    assert html_response(conn, 302)
     # there must be some refresh/reloadrefresh user
     updated_user = Repo.get(Formerer.User, user.id)
 
@@ -24,9 +24,9 @@ defmodule Formerer.UsersControllerTest do
 
   @tag email: "test@example.com", password: "ins3cure"
   test "user cannot change the password if the old password is wrong", %{conn: conn, user: user} do
-    response = put(conn, users_path(conn, :update, user, user: %{old_password: "wrongpass", password: "toos3cure", confirm_password: "toos3cure"}))
+    conn = put(conn, users_path(conn, :update, user, user: %{old_password: "wrongpass", password: "toos3cure", confirm_password: "toos3cure"}))
 
-    assert html_response(response, 200)
+    assert html_response(conn, 200)
     updated_user = Repo.get(Formerer.User, user.id)
 
     assert checkpw("ins3cure", updated_user.password_digest)
@@ -34,9 +34,9 @@ defmodule Formerer.UsersControllerTest do
 
   @tag email: "test@example.com", password: "ins3cure"
   test "user cannot change the password if new password confirmation is wrong", %{conn: conn, user: user} do
-    response = put(conn, users_path(conn, :update, user, user: %{old_password: "ins3cure", password: "toos3cure", confirm_password: "wrongpass"}))
+    conn = put(conn, users_path(conn, :update, user, user: %{old_password: "ins3cure", password: "toos3cure", confirm_password: "wrongpass"}))
 
-    assert html_response(response, 200)
+    assert html_response(conn, 200)
     updated_user = Repo.get(Formerer.User, user.id)
 
     assert checkpw("ins3cure", updated_user.password_digest)
