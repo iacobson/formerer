@@ -1,9 +1,8 @@
 defmodule Formerer.UserToken do
+  import Ecto.Changeset, only: [add_error: 3]
   import Plug.Conn
-  import Ecto.Changeset
   import Ecto.Query
-  alias Formerer.Repo
-  alias Formerer.User
+  alias Formerer.{Repo, User}
 
   def verify_token(changeset) do
     case changeset do

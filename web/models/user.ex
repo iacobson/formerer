@@ -1,6 +1,6 @@
 defmodule Formerer.User do
   use Formerer.Web, :model
-  import Formerer.UserPasswordChange, only: [check_old_password: 1, check_new_password: 1]
+  import Formerer.UserPasswordChange, only: [check_old_password: 1, check_new_password: 1, check_valid_user: 1]
   import Formerer.UserToken, only: [verify_token: 1]
 
   schema "users" do
@@ -54,9 +54,22 @@ defmodule Formerer.User do
     |> new_password_changeset(params)
   end
 
+  def password_reset_changeset(model, params \\ :empty) do
+    model
+    |> token_changeset(params)
+    |> new_password_changeset(params)
+  end
+
   def token_changeset(model, params \\ :empty) do
     model
     |> cast(params, ~w(token), [])
     |> verify_token()
+  end
+
+  def email_changeset(model, params \\ :empty) do
+    model
+    |> cast(params, ~w(email), [])
+    |> validate_format(:email, ~r/@/)
+    |> check_valid_user()
   end
 end
