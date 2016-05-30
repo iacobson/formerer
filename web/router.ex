@@ -38,6 +38,7 @@ defmodule Formerer.Router do
     post "/login", SessionController, :create
     delete "/logout", SessionController, :delete
     resources "account_activation", AccountActivationController, only: [:edit]
+    resources "password_reset", PasswordResetController, only: [:new, :create, :edit, :update]
 
     pipe_through :authenticate_user
     get "/dashboard", DashboardController, :index
