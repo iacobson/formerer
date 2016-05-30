@@ -14,6 +14,7 @@ defmodule Formerer.AccountActivationControllerTest do
     updated_user = Repo.get(Formerer.User, user.id)
 
     assert updated_user.activated == true
+    assert updated_user.token == nil
   end
 
 end
