@@ -5,7 +5,7 @@
 
     <nav class="mdl-navigation">
       <%= if logged_in?(@conn) do %>
-        <%= current_user(@conn).email %>
+        <%= link current_user(@conn).email, to: users_path(@conn, :edit, current_user(@conn)), class: "mdl-navigation__link" %>
         <%= link "Logout", to: session_path(@conn, :delete), method: :delete, class: "mdl-navigation__link" %>
       <% else %>
         <%= link "Login", to: session_path(@conn, :new), class: "mdl-navigation__link" %>
