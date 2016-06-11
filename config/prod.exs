@@ -19,6 +19,10 @@ config :formerer, Formerer.Endpoint,
 # Do not print debug messages in production
 config :logger, level: :info
 
+
+config :formerer, Formerer.Mailer,
+  adapter: Swoosh.Adapters.Sendgrid,
+  api_key: Application.get_env(:formerer, :sendgrid_api_key)
 # ## SSL Support
 #
 # To get SSL working, you will need to add the `https` key
