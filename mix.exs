@@ -41,7 +41,7 @@ defmodule Formerer.Mixfile do
       {:uuid, "~> 1.1" },
       {:hound, "~> 0.8", only: :test},
       {:ex_machina, "~> 0.6.1", only: :test},
-      {:httpotion, "~> 2.2.0"},
+      {:httpotion, "~> 3.0.0"},
       {:poison, "~> 1.5.2"},
       {:cowboy, "~> 1.0"},
       {:timex, "~> 2.1"},
