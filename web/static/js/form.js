@@ -1,10 +1,10 @@
 let Form = {
   init(){
 
-    $('[data-behaviour="clipboard-copy"]').each( function(){
-      let clipboard = new Clipboard(this)
+    for (var clip of $('[data-behaviour="clipboard-copy"]')){
+      let clipboard = new Clipboard(clip)
       clipboard.on('success', this.clipboard_success)
-    })
+    }
 
     $('[data-behaviour="toggle-submission-details"]').on('click', this.toggle_submission_details)
 
