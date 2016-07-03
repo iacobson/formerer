@@ -26,7 +26,7 @@ defmodule Formerer.User do
   If no params are provided, an invalid changeset is returned
   with no validation performed.
   """
-  def changeset(model, params \\ :empty) do
+  def changeset(model, params \\ %{}) do
     model
     |> cast(params, @required_fields, @optional_fields)
     |> unique_constraint(:email)
@@ -34,39 +34,39 @@ defmodule Formerer.User do
     |> validate_length(:password, min: 7)
   end
 
-  def password_changeset(model, params \\ :empty) do
+  def password_changeset(model, params \\ %{}) do
     model
     |> cast(params, ~w(old_password), [])
     |> validate_length(:old_password, min: 7)
     |> check_old_password()
   end
 
-  def new_password_changeset(model, params \\ :empty) do
+  def new_password_changeset(model, params \\ %{}) do
     model
     |> cast(params, ~w(password confirm_password), [])
     |> validate_length(:password, min: 7)
     |> check_new_password()
   end
 
-  def password_change_changeset(model, params \\ :empty) do
+  def password_change_changeset(model, params \\ %{}) do
     model
     |> password_changeset(params)
     |> new_password_changeset(params)
   end
 
-  def password_reset_changeset(model, params \\ :empty) do
+  def password_reset_changeset(model, params \\ %{}) do
     model
     |> token_changeset(params)
     |> new_password_changeset(params)
   end
 
-  def token_changeset(model, params \\ :empty) do
+  def token_changeset(model, params \\ %{}) do
     model
     |> cast(params, ~w(token), [])
     |> verify_token()
   end
 
-  def email_changeset(model, params \\ :empty) do
+  def email_changeset(model, params \\ %{}) do
     model
     |> cast(params, ~w(email), [])
     |> validate_format(:email, ~r/@/)
