@@ -1,7 +1,7 @@
 defmodule Formerer.Endpoint do
   use Phoenix.Endpoint, otp_app: :formerer
 
-  socket "/socket", Formerer.FormSocket
+  socket "/socket", Formerer.UserSocket
 
   # Serve at "/" the static files from "priv/static" directory.
   #

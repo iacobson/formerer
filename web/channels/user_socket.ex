@@ -1,10 +1,10 @@
-defmodule Formerer.FormSocket do
+defmodule Formerer.UserSocket do
   use Phoenix.Socket
 
-  channel "submissions:*", Formerer.SubmissionChannel
+  channel "forms:*", Formerer.FormChannel
 
   transport :websocket, Phoenix.Transports.WebSocket
-  transport :longpoll, Phoenix.Transports.LongPoll
+  #transport :longpoll, Phoenix.Transports.LongPoll
 
   def connect(_params, socket) do
     {:ok, socket}

@@ -43,6 +43,8 @@
   </div>
 </div>
 
+<div id="test-channels">test da fukin channal</div>
+
 <script>
   window.formId = <%= @form.id %>;
 </script>

@@ -1,5 +1,5 @@
 let Form = {
-  init(){
+  init(socket){
 
     for (var clip of $('[data-behaviour="clipboard-copy"]')){
       let clipboard = new Clipboard(clip)
@@ -14,6 +14,12 @@ let Form = {
     $('[data-behaviour="dialog"]').on('click', this.show_dialog)
 
     $(document).on('click', '[data-behaviour="submit-form"]', this.submit_form)
+
+    socket.connect()
+    let channel = socket.channel("forms:1")
+    channel.join()
+      .receive("ok", resp => { console.log("yess i'm in", resp) })
+      .receive("error", resp => { console.log("nooooooooooo", resp) })
   },
 
   clipboard_success(){

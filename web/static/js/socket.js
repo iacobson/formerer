@@ -54,16 +54,5 @@ let socket = new Socket("/socket", {
 // Finally, pass the token on connect as below. Or remove it
 // from connect if you don't care about authentication.
 
-socket.connect()
-
-if (window.formId) {
-  let channel = socket.channel("submissions:" + window.formId, {})
-
-  channel.join()
-    .receive("ok", resp => { console.log("Joined successfully", resp) })
-    .receive("error", resp => { console.log("Unable to join", resp) })
-}
-
-//channel.on("new_submission"
 
 export default socket
