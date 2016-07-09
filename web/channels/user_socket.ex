@@ -6,9 +6,18 @@ defmodule Formerer.UserSocket do
   transport :websocket, Phoenix.Transports.WebSocket
   #transport :longpoll, Phoenix.Transports.LongPoll
 
-  def connect(_params, socket) do
-    {:ok, socket}
+  #Any :params we pass to the socket constructor in socket.js will be available as the first argument in UserSocket.connect
+
+  def connect(%{"token" => token}, socket) do
+    case Phoenix.Token.verify(socket, "user socket", token, max_age: @max_age) do
+      {:ok, user_id} ->
+        {:ok, assign(socket, :user_id, user_id)}
+      {:error, _reason} ->
+        :error
+    end
   end
 
-  def id(_socket), do: nil
+  def connect(_params, _socket), do: :error
+
+  def id(socket), do: "users_socket:#{socket.assigns.user_id}"
 end

@@ -13,7 +13,10 @@ defmodule Formerer.UserAuthentication do
         |> redirect(to: "/")
         |> halt()
       user ->
-        assign(conn, :user, user)
+        token = Phoenix.Token.sign(conn, "user socket", user.id)
+        conn
+        |> assign(:user, user)
+        |> assign(:user_token, token)
     end
   end
 
