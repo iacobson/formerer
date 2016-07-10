@@ -1,5 +1,6 @@
 defmodule Formerer.UserSocket do
   use Phoenix.Socket
+  @max_age 2 * 7 * 24 * 60 * 60
 
   channel "forms:*", Formerer.FormChannel
 

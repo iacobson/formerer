@@ -1,3 +1,5 @@
+import submissions_template from "./templates/submissions"
+
 let Form = {
   init(socket){
 
@@ -6,7 +8,7 @@ let Form = {
       clipboard.on('success', this.clipboard_success)
     }
 
-    $('[data-behaviour="toggle-submission-details"]').on('click', this.toggle_submission_details)
+    $(document).on('click', '[data-behaviour="toggle-submission-details"]', this.toggle_submission_details)
 
     // pass this object (Form) to the edit_name
     $('[data-behaviour="edit-form-name"]').on('click', () => this.edit_name())
@@ -15,11 +17,46 @@ let Form = {
 
     $(document).on('click', '[data-behaviour="submit-form"]', this.submit_form)
 
-    socket.connect()
-    let channel = socket.channel("forms:1")
-    channel.join()
-      .receive("ok", resp => { console.log("yess i'm in", resp) })
+    this.handle_channels(socket)
+  },
+
+  handle_channels(socket){
+    let form_id = document.getElementById("form-submissions").getAttribute("data-form-id")
+    if (form_id) {
+      $("#submissions-present").hide()
+      $("#no-submissions-present").hide()
+
+      socket.connect()
+      let channel = socket.channel("forms:" + form_id)
+      channel.join()
+      .receive("ok", resp => {
+        this.parse_submissions(resp)
+      })
       .receive("error", resp => { console.log("nooooooooooo", resp) })
+    }
+  },
+
+  parse_submissions(resp){
+    if(resp.submissions.length > 0) {
+      $("#submissions-present").show()} else{
+      $("#no-submissions-present").show()
+    }
+    let system_columns_keys = Object.keys(resp.system_columns)
+
+    let submissions_data = {
+      "submissions": resp.submissions,
+      "selected_columns": resp.selected_columns,
+      "system_columns": resp.system_columns,
+      "system_columns_keys": system_columns_keys,
+      "column_count": resp.column_count
+    }
+    this.render_submission(submissions_data)
+  },
+
+  render_submission(submissions_data){
+    let container = $("#submissions-container")
+    let html = submissions_template(submissions_data)
+    container.append(html)
   },
 
   clipboard_success(){

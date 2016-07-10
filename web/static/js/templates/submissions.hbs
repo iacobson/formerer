@@ -1,0 +1,30 @@
+{{#each submissions as |submission|}}
+<tr data-id = {{submission.id}}>
+  {{#each ../system_columns_keys as |sys_col|}}
+  <td>{{lookup submission sys_col }}</td>
+  {{/each}}
+  {{#each ../selected_columns as |sel_col|}}
+  <td>{{lookup submission.fields sel_col}}</td>
+  {{/each}}
+  <td class='submission-actions'>
+    <button data-behaviour="toggle-submission-details" class='mdl-button mdl-button--raised mdl-button--colored'>Details</button>
+  </td>
+</tr>
+<tr class='submission-details' data-details-for= {{submission.id}}>
+  <td colspan= {{../column_count}}>
+    {{#each ../system_columns_keys as |sys_col|}}
+    <p>
+      <strong> {{lookup ../../system_columns sys_col}}:  </strong>
+      {{lookup submission sys_col }}
+    </p>
+    {{/each}}
+    {{#each submission.fields as |val key|}}
+    <p>
+      <strong> {{key}}:  </strong>
+      {{val}}
+    </p>
+    {{/each}}
+  </td>
+</tr>
+{{/each}}
+
