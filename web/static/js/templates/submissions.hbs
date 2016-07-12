@@ -20,7 +20,7 @@
     {{/each}}
     {{#each submission.fields as |val key|}}
     <p>
-      <strong> {{key}}:  </strong>
+      <strong> {{formatColumnName key}}:  </strong>
       {{val}}
     </p>
     {{/each}}

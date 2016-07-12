@@ -14,27 +14,8 @@
         <% end %>
       </th>
     </thead>
-    <tbody>
-      <%= for submission <- @submissions do %>
-        <tr data-id="<%= submission.id %>">
-          <%= for key <- selected_columns(@form) do %>
-            <td><%= column_value(submission, key) %></td>
-          <% end %>
-          <td class='submission-actions'>
-            <button data-behaviour="toggle-submission-details" class='mdl-button mdl-button--raised mdl-button--colored'>Details</button>
-          </td>
-        </tr>
-        <tr class='submission-details' data-details-for="<%= submission.id %>">
-          <td colspan="<%= column_count(@form) + 1 %>">
-            <%= for { key, value } <- all_fields(submission) do %>
-              <p>
-                <strong><%= pretty_column_name(key) %>: </strong>
-                <%= detail_value(value) %>
-              </p>
-            <% end %>
-          </td>
-        </tr>
-      <% end %>
+    <tbody id="submissions-container">
+
     </tbody>
   </table>
 </div>

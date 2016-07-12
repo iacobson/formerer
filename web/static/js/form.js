@@ -28,6 +28,11 @@ let Form = {
 
       socket.connect()
       let channel = socket.channel("forms:" + form_id)
+
+      channel.on("new_submission", (resp) => {
+        this.parse_submissions(resp)
+      })
+
       channel.join()
       .receive("ok", resp => {
         this.parse_submissions(resp)
@@ -55,8 +60,11 @@ let Form = {
 
   render_submission(submissions_data){
     let container = $("#submissions-container")
+    Handlebars.registerHelper("formatColumnName", (column) => {
+      return column.replace(/-|_/g, " ").toLowerCase().split(' ').map((a) => a.charAt(0).toUpperCase() + a.substr(1)).join(' ')
+    })
     let html = submissions_template(submissions_data)
-    container.append(html)
+    container.prepend(html)
   },
 
   clipboard_success(){
