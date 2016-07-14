@@ -2,7 +2,7 @@ defmodule Formerer.ColumnFormatter do
   import String, only: [replace: 3, capitalize: 1]
 
   def system_columns do
-    [inserted_at: "Received"]
+    %{inserted_at: "Received"}
   end
 
   def pretty_column_name(key) when is_binary(key) do
@@ -12,7 +12,7 @@ defmodule Formerer.ColumnFormatter do
   end
 
   def pretty_column_name(key) do
-    Keyword.get(system_columns, key, format_column_name(key))
+    Map.get(system_columns, key, format_column_name(key))
   end
 
   defp format_column_name(key) when is_atom(key) do

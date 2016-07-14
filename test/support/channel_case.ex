@@ -32,8 +32,10 @@ defmodule Formerer.ChannelCase do
   end
 
   setup tags do
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Formerer.Repo)
+
     unless tags[:async] do
-      Ecto.Adapters.SQL.restart_test_transaction(Formerer.Repo, [])
+      Ecto.Adapters.SQL.Sandbox.mode(Formerer.Repo, {:shared, self()})
     end
 
     :ok
