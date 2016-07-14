@@ -28,21 +28,23 @@ let Form = {
 
       socket.connect()
       let channel = socket.channel("forms:" + form_id)
+      let channel_params = channel.params
 
       channel.on("new_submission", (resp) => {
-        this.parse_submissions(resp)
+        this.parse_submissions(resp, channel_params)
       })
 
       channel.join()
       .receive("ok", resp => {
-        this.parse_submissions(resp)
+        this.parse_submissions(resp, channel_params)
       })
       .receive("error", resp => { console.log("nooooooooooo", resp) })
     }
   },
 
-  parse_submissions(resp){
+  parse_submissions(resp, channel_params){
     if(resp.submissions.length > 0) {
+      this.store_last_submission(resp.submissions, channel_params)
       $("#submissions-present").show()} else{
       $("#no-submissions-present").show()
     }
@@ -56,6 +58,11 @@ let Form = {
       "column_count": resp.column_count
     }
     this.render_submission(submissions_data)
+  },
+
+  store_last_submission(submissions, channel_params){
+    let ids = submissions.map(sub => sub.id)
+    channel_params.last_seen_id = Math.max(...ids)
   },
 
   render_submission(submissions_data){

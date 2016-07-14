@@ -5,12 +5,14 @@ defmodule Formerer.FormChannel do
   alias Formerer.ColumnFormatter
   alias Formerer.SubmissionsView
 
-  def join("forms:" <> form_id, _params, socket) do
+  def join("forms:" <> form_id, params, socket) do
+    last_seen_id = params["last_seen_id"] || 0
     form_id = String.to_integer(form_id)
     user = Repo.get(Formerer.User, socket.assigns.user_id)
     form = get_user_form(user, form_id)
     submissions = Repo.all(
       from s in assoc(form, :submissions),
+      where: s.id > ^last_seen_id,
       order_by: [desc: s.inserted_at]
     )
 
