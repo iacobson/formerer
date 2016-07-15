@@ -40,7 +40,7 @@ defmodule Formerer.PasswordResetController do
 
   def update(conn, %{ "user" => user_params, "id" =>id }) do
     changeset = User.password_reset_changeset(%User{}, user_params)
-    user = changeset.model
+    user = changeset.data
 
     case UserCreator.update(changeset, Repo) do
       { :ok, user } ->
