@@ -41,7 +41,7 @@ defmodule Formerer.UserPasswordChange do
   end
 
   def check_valid_user(changeset) do
-    case changeset.model.email do
+    case changeset.data.email do
       nil ->
         add_error(changeset, :user, "invalid")
       _ ->

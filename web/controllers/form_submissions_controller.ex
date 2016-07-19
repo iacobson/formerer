@@ -7,7 +7,8 @@ defmodule Formerer.FormSubmissionsController do
     changeset = Submission.changeset(%Submission{ form_id: form.id }, submission_params(conn, params))
 
     case SubmissionCreator.create(form, changeset) do
-      { :ok, _ } ->
+      { :ok, submission } ->
+        Formerer.FormChannel.broadcast_new_submission(submission, form)
         conn
         |> put_status(201)
         |> json(%{ success: true, message: "Form submitted successfully" })

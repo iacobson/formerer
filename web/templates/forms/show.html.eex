@@ -33,11 +33,12 @@
 <div class="mdl-grid">
   <div class="mdl-cell mdl-cell--3-col"></div>
   <div class="mdl-cell mdl-card submissions-card mdl-shadow--2dp mdl-cell--6-col">
-    <%= if Enum.any?(@form.submissions) do %>
-      <%= render Formerer.SubmissionsView, "submissions.html", conn: @conn, form: @form, submissions: @form.submissions %>
-    <% else %>
-      <div class="mdl-card__supporting-text">
+    <%= content_tag( :div, id: "form-submissions", data: [form_id: @form.id]) do %>
+      <div class="mdl-card__supporting-text" id="no-submissions-present">
         <p class="advice-text">You've not had any submissions yet, submit a form using the above URL to see it here</p>
+      </div>
+      <div id="submissions-present">
+        <%= render Formerer.SubmissionsView, "submissions.html", conn: @conn, form: @form, submissions: @form.submissions %>
       </div>
     <% end %>
   </div>

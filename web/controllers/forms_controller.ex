@@ -4,7 +4,6 @@ defmodule Formerer.FormsController do
   alias Formerer.{Form, FormCreator}
   import Formerer.Session, only: [current_user: 1]
   import Formerer.UserFormRetriever
-  import Ecto.Query
 
   def new(conn, _) do
     changeset = Form.changeset(%Form{})

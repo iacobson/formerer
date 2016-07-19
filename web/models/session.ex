@@ -1,5 +1,6 @@
 defmodule Formerer.Session do
   import Comeonin.Bcrypt, only: [checkpw: 2]
+  import Plug.Conn
   alias Formerer.User
   alias Formerer.Repo
 
@@ -14,10 +15,13 @@ defmodule Formerer.Session do
   def current_user(conn) do
     case conn.assigns[:user] do
       nil ->
-        id = Plug.Conn.get_session(conn, :current_user)
+        id = get_session(conn, :current_user)
         if id do
           user = Repo.get(User, id)
-          Plug.Conn.assign(conn, :user, user)
+          token = Phoenix.Token.sign(conn, "user socket", user.id)
+          conn
+          |> assign(:user, user)
+          |> assign(:user_token, token)
           user
         end
       user ->

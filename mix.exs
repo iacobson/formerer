@@ -4,7 +4,7 @@ defmodule Formerer.Mixfile do
   def project do
     [app: :formerer,
       version: "0.0.1",
-      elixir: "~> 1.0",
+      elixir: "~> 1.3",
       elixirc_paths: elixirc_paths(Mix.env),
       compilers: [:phoenix, :gettext] ++ Mix.compilers,
       build_embedded: Mix.env == :prod,
@@ -18,7 +18,7 @@ defmodule Formerer.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {Formerer, []},
-      applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext,
+      applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
         :phoenix_ecto, :postgrex, :httpotion, :comeonin, :timex, :timex_ecto,
         :swoosh, :phoenix_swoosh]]
   end
@@ -31,8 +31,9 @@ defmodule Formerer.Mixfile do
   #
   # Type `mix help deps` for examples and options.
   defp deps do
-    [{:phoenix, "~> 1.1.4"},
-      {:phoenix_ecto, "~> 2.0"},
+    [{:phoenix, "~> 1.2.0"},
+      {:phoenix_pubsub, "~> 1.0"},
+      {:phoenix_ecto, "~> 3.0-rc"},
       {:postgrex, ">= 0.11.0"},
       {:phoenix_html, "~> 2.3"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
@@ -41,8 +42,8 @@ defmodule Formerer.Mixfile do
       {:uuid, "~> 1.1" },
       {:hound, "~> 0.8", only: :test},
       {:ex_machina, "~> 0.6.1", only: :test},
-      {:httpotion, "~> 2.2.0"},
-      {:poison, "~> 1.5.2"},
+      {:httpotion, "~> 3.0"},
+      {:poison, "~> 2.0"},
       {:cowboy, "~> 1.0"},
       {:timex, "~> 2.1"},
       {:timex_ecto, "~> 1.0"},
@@ -59,6 +60,7 @@ defmodule Formerer.Mixfile do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     ["ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
-      "ecto.reset": ["ecto.drop", "ecto.setup"]]
+      "ecto.reset": ["ecto.drop", "ecto.setup"],
+      "test": ["ecto.create --quiet", "ecto.migrate", "test"]]
   end
 end

@@ -10,18 +10,25 @@ defmodule Formerer.SubmissionsView do
 
   def all_fields(submission) do
     system_columns
-    |> Keyword.keys
+    |> Map.keys
     |> Enum.map(&({ &1, Map.get(submission, &1)}))
     |> Map.new
     |> Map.merge(submission.fields)
   end
 
   def selected_columns(form) do
-    Enum.concat(Keyword.keys(system_columns), form.columns)
+    Enum.concat(Map.keys(system_columns), form.columns)
   end
 
   def column_value(submission, key) do
     Map.get(submission, key, Map.get(submission.fields, key))
   end
 
+  def render("submission.json", %{submission: submission}) do
+    %{
+      id: submission.id,
+      fields: submission.fields,
+      inserted_at: Ecto.DateTime.to_string(submission.inserted_at)
+    }
+  end
 end
