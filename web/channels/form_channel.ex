@@ -1,23 +1,25 @@
 defmodule Formerer.FormChannel do
   use Phoenix.Channel
   use Formerer.Web, :channel
-  import Formerer.UserFormRetriever
+  import Formerer.UserFormRetriever, only: [get_user_form: 2]
+  import Formerer.FormSubmissionsRetriever, only: [get_form_submissions: 2]
   alias Formerer.ColumnFormatter
   alias Formerer.SubmissionsView
 
   def join("forms:" <> form_id, params, socket) do
-    last_seen_id = params["last_seen_id"] || 0
+    last_seen_id = params["last_seen_id"]
     form_id = String.to_integer(form_id)
     user = Repo.get(Formerer.User, socket.assigns.user_id)
-    form = get_user_form(user, form_id)
-    submissions = Repo.all(
-      from s in assoc(form, :submissions),
-      where: s.id > ^last_seen_id,
-      order_by: [desc: s.inserted_at]
-    )
 
-    resp = submissions_payload(submissions, form)
-    {:ok, resp, assign(socket, :form_id, form_id) }
+    case get_user_form(user, form_id) do
+      {:ok, form} ->
+        submissions = get_form_submissions(form, last_seen_id)
+        resp = submissions_payload(submissions, form)
+        {:ok, resp, assign(socket, :form_id, form_id) }
+
+      {:error, error} ->
+        {:error, error}
+    end
   end
 
   def broadcast_new_submission(submission, form) do
