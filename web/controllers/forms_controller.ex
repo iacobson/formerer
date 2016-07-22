@@ -11,8 +11,13 @@ defmodule Formerer.FormsController do
   end
 
   def show(conn, %{"id" => id}) do
-    form = current_user(conn) |> get_user_form(id) |> Repo.preload(:submissions)
-    render conn, form: form
+    case current_user(conn) |> get_user_form(id) do
+      { :ok, form } ->
+        form = form |> Repo.preload(:submissions)
+        render conn, form: form
+      { :error, error } ->
+        send_resp(conn, 404, error)
+    end
   end
 
   def create(conn, %{ "form" => form_params }) do
@@ -31,22 +36,26 @@ defmodule Formerer.FormsController do
   end
 
   def update(conn, %{ "name" => name, "id" => id }) do
-    form = current_user(conn) |> get_user_form(id)
-    changeset = Form.changeset(form, %{ name: name })
+    case current_user(conn) |> get_user_form(id) do
+      { :ok, form } ->
+        changeset = Form.changeset(form, %{ name: name })
+        case Repo.update(changeset) do
+          { :ok, _ } ->
+            send_resp(conn, 200, "OK")
+          { :error, _ } ->
+            send_resp(conn, 400, "Error updating name")
+        end
 
-    case Repo.update(changeset) do
-      { :ok, _ } ->
-        send_resp(conn, 200, "OK")
-      { :error, _ } ->
-        send_resp(conn, 400, "Error updating name")
+      { :error, error } ->
+        send_resp(conn, 404, error)
     end
   end
 
   def delete(conn, %{ "id" => id }) do
     case current_user(conn) |> get_user_form(id) do
-      nil ->
-        send_resp(conn, 404, "Not Found")
-      form ->
+      { :error, error } ->
+        send_resp(conn, 404, error)
+      { :ok, form } ->
         case Repo.delete(form) do
           { :ok, _ } ->
             redirect(conn, to: dashboard_path(conn, :index))

@@ -21,11 +21,12 @@ let Form = {
   },
 
   handle_channels(socket){
-    let form_id = document.getElementById("form-submissions").getAttribute("data-form-id")
-    if (form_id) {
+    let form_submissions = document.getElementById("form-submissions")
+    if (form_submissions) {
       $("#submissions-present").hide()
       $("#no-submissions-present").hide()
 
+      let form_id = form_submissions.getAttribute("data-form-id")
       socket.connect()
       let channel = socket.channel("forms:" + form_id)
       let channel_params = channel.params
