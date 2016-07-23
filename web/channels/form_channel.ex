@@ -3,8 +3,7 @@ defmodule Formerer.FormChannel do
   use Formerer.Web, :channel
   import Formerer.UserFormRetriever, only: [get_user_form: 2]
   import Formerer.FormSubmissionsRetriever, only: [get_form_submissions: 2]
-  alias Formerer.ColumnFormatter
-  alias Formerer.SubmissionsView
+  alias Formerer.{ColumnFormatter, SubmissionsView}
 
   def join("forms:" <> form_id, params, socket) do
     last_seen_id = params["last_seen_id"]

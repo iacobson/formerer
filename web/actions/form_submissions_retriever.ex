@@ -1,7 +1,6 @@
 defmodule Formerer.FormSubmissionsRetriever do
-  import Ecto.Query
-  alias Formerer.Submission
-  alias Formerer.Repo
+  import Ecto.Query, only: [where: 2, where: 3, order_by: 3, first: 1]
+  alias Formerer.{Submission, Repo}
 
   def get_form_submissions(form, last_seen_id) do
     last_seen = last_seen_submission_date(last_seen_id)
