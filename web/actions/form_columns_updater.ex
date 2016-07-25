@@ -1,6 +1,5 @@
 defmodule Formerer.FormColumnsUpdater do
   import Ecto.Changeset, only: [change: 1, put_change: 3]
-  import Ecto.Query
   alias Formerer.Repo
 
   def update_columns(form, columns) do

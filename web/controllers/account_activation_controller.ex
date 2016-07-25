@@ -6,11 +6,11 @@ defmodule Formerer.AccountActivationController do
     changeset = User.token_changeset(%User{}, %{token: id})
 
     case UserCreator.activate_account(changeset, Repo) do
-      { :ok, user } ->
+      { :ok, _user } ->
         conn
         |> put_flash(:info, "Account activated")
         |> redirect(to: "/")
-      { :error, changeset } ->
+      { :error, _changeset } ->
         conn
         |> put_flash(:info, "Error activating account")
         |> redirect(to: "/")

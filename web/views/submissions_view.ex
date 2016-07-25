@@ -1,6 +1,6 @@
 defmodule Formerer.SubmissionsView do
   use Formerer.Web, :view
-  import Formerer.{ColumnFormatter, DetailFormatter}
+  import Formerer.ColumnFormatter
 
   def column_count(form) do
     form

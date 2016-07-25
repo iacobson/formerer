@@ -1,5 +1,4 @@
 defmodule Formerer.TestsHelpers.UserHelper do
-  import Formerer.Router.Helpers
   import Formerer.UserFactory
   import Comeonin.Bcrypt, only: [hashpwsalt: 1]
 

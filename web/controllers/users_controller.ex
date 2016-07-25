@@ -38,7 +38,7 @@ defmodule Formerer.UsersController do
     changeset = User.password_change_changeset(user, user_params)
 
     case UserCreator.update(changeset, Repo) do
-      { :ok, user } ->
+      { :ok, _user } ->
         conn
         |> put_flash(:info, "Password changed")
         |> redirect(to: "/")
