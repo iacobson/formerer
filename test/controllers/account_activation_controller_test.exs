@@ -2,13 +2,9 @@ defmodule Formerer.AccountActivationControllerTest do
   use Formerer.ConnCase
   import Formerer.UserFactory
 
-  setup %{conn: conn} = config do
+  test "user can activate account with correct token" do
     user = insert(:user, activated: false, token: "activationtoken")
-    {:ok, conn: conn, user: user}
-  end
-
-  test "user can activate account with correct token", %{conn: conn, user: user} do
-    conn = get(conn, account_activation_path(conn, :edit, "activationtoken"))
+    conn = get(build_conn, account_activation_path(build_conn, :edit, "activationtoken"))
 
     assert html_response(conn, 302)
     updated_user = Repo.get(Formerer.User, user.id)

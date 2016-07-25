@@ -25,7 +25,7 @@ defmodule Formerer.PasswordResetControllerTest do
   end
 
   @tag email: "test@example.com", password: "ins3cure", token: nil
-  test "user with correct email cannot initiate password reset", %{conn: conn, user: user} do
+  test "user with correct email cannot initiate password reset", %{conn: conn} do
     conn = post(conn, password_reset_path(conn, :create), user: %{email: "wrong@example.com"})
 
     assert html_response(conn, 200) =~ "Incorrect email address"

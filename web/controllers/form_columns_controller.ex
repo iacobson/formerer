@@ -21,21 +21,7 @@ defmodule Formerer.FormColumnsController do
   def update(conn, %{"columns" => columns, "forms_id" => id}) do
     case current_user(conn) |> get_user_form(id) do
       { :ok, form } ->
-        case update_columns(form, columns) do
-          { :ok, _ } ->
-            json(conn, %{
-                success: true,
-                url: forms_path(conn, :show, form),
-                message: "Columns updated!"
-            })
-          { :error, changeset} ->
-            conn
-            |> put_status(400)
-            |> json(%{
-              success: false,
-              message: changeset.errors
-            })
-        end
+        form_columns_update(conn, form, columns)
       { :error, error } ->
         send_resp(conn, 404, error)
     end
@@ -43,6 +29,25 @@ defmodule Formerer.FormColumnsController do
 
   defp first_submission(form) do
     Submission |> where(form_id: ^form.id) |> limit(1) |> Repo.one
+  end
+
+  defp form_columns_update(conn, form, columns) do
+    case update_columns(form, columns) do
+      { :ok, _ } ->
+        json(conn, %{
+          success: true,
+          url: forms_path(conn, :show, form),
+          message: "Columns updated!"
+        })
+      { :error, changeset} ->
+        conn
+        |> put_status(400)
+        |> json(%{
+          success: false,
+          message: changeset.errors
+        })
+    end
+
   end
 
 end

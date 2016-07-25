@@ -39,13 +39,7 @@ defmodule Formerer.FormsController do
     case current_user(conn) |> get_user_form(id) do
       { :ok, form } ->
         changeset = Form.changeset(form, %{ name: name })
-        case Repo.update(changeset) do
-          { :ok, _ } ->
-            send_resp(conn, 200, "OK")
-          { :error, _ } ->
-            send_resp(conn, 400, "Error updating name")
-        end
-
+        form_update(conn, changeset)
       { :error, error } ->
         send_resp(conn, 404, error)
     end
@@ -65,4 +59,13 @@ defmodule Formerer.FormsController do
     end
   end
 
+  defp form_update(conn, changeset) do
+    case Repo.update(changeset) do
+      { :ok, _ } ->
+        send_resp(conn, 200, "OK")
+      { :error, _ } ->
+        send_resp(conn, 400, "Error updating name")
+    end
+
+  end
 end

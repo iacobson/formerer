@@ -12,7 +12,7 @@ defmodule Formerer.FormsControllerTest do
   end
 
   @tag activated: false
-  test "non activated user cannot create forms", %{conn: conn, user: user} do
+  test "non activated user cannot create forms", %{conn: conn} do
     conn = get(conn, forms_path(conn, :new))
 
     assert html_response(conn, 302)
@@ -20,7 +20,7 @@ defmodule Formerer.FormsControllerTest do
   end
 
   @tag activated: true
-  test "activated user can create forms", %{conn: conn, user: user} do
+  test "activated user can create forms", %{conn: conn} do
     conn = get(conn, forms_path(conn, :new))
 
     assert html_response(conn, 200)
@@ -34,21 +34,21 @@ defmodule Formerer.FormsControllerTest do
     end
 
     @tag activated: true
-    test "user can delete their own form", %{ conn: conn, user: user, form: form } do
+    test "user can delete their own form", %{ conn: conn, form: form } do
       delete(conn, forms_path(conn, :delete, form))
 
       assert Repo.get(Formerer.Form, form.id) == nil
     end
 
     @tag activated: true
-    test "deleting form successfully redirects to dashboard", %{ conn: conn, user: user, form: form } do
+    test "deleting form successfully redirects to dashboard", %{ conn: conn, form: form } do
       conn = delete(conn, forms_path(conn, :delete, form))
 
       assert redirected_to(conn) =~ dashboard_path(conn, :index)
     end
 
     @tag activated: true
-    test "user can not delete someone elses form", %{ conn: conn, user: user, form: form } do
+    test "user can not delete someone elses form", %{ conn: conn } do
       other_form = FormFactory.insert(:form)
 
       conn = delete(conn, forms_path(conn, :delete, other_form))
