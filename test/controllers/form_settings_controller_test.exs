@@ -17,15 +17,16 @@ defmodule Formerer.FormSettingsControllerTest do
       assert conn.assigns[:form].id == form.id
     end
 
-    test "user cant view settings page for other users form", %{ conn: conn, user: user } do
+    test "user cant view settings page for other users form", %{ conn: conn } do
       form = FormFactory.insert(:form)
       conn = get(conn, form_settings_path(conn, :edit, form))
 
       assert response(conn, 404)
     end
 
-    test "user cant view settings page for form that doesn't exist", %{ conn: conn, user: user } do
+    test "user cant view settings page for form that doesn't exist", %{ conn: conn } do
       conn = get(conn, form_settings_path(conn, :edit, 1))
+
       assert response(conn, 404)
     end
 

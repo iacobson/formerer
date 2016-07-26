@@ -5,11 +5,10 @@ defmodule Formerer.FormSettingsController do
 
   def edit(conn, %{"form_id" => id}) do
     case current_user(conn) |> get_user_form(id) do
-      nil ->
-        send_resp(conn, 404, "Not Found")
-      form ->
+      { :ok, form } ->
         render conn, form: form
+      { :error, error } ->
+        send_resp(conn, 404, error)
     end
   end
-
 end

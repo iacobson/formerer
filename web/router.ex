@@ -37,20 +37,20 @@ defmodule Formerer.Router do
     get "/login", SessionController, :new
     post "/login", SessionController, :create
     delete "/logout", SessionController, :delete
-    resources "account_activation", AccountActivationController, only: [:edit]
-    resources "password_reset", PasswordResetController, only: [:new, :create, :edit, :update]
+    resources "/account_activation", AccountActivationController, only: [:edit]
+    resources "/password_reset", PasswordResetController, only: [:new, :create, :edit, :update]
 
     pipe_through :authenticate_user
     get "/dashboard", DashboardController, :index
     pipe_through :activated_account
-    resources "users", UsersController, only: [:edit, :update]
+    resources "/users", UsersController, only: [:edit, :update]
 
-    resources "forms", FormsController, only: [:new, :create, :update, :show, :delete] do
-      get "columns/edit", FormColumnsController, :edit
-      post "columns/update", FormColumnsController, :update
+    resources "/forms", FormsController, only: [:new, :create, :update, :show, :delete] do
+      get "/columns/edit", FormColumnsController, :edit
+      post "/columns/update", FormColumnsController, :update
     end
 
-    get "forms/:form_id/settings", FormSettingsController, :edit
+    get "/forms/:form_id/settings", FormSettingsController, :edit
 
   end
 

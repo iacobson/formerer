@@ -1,7 +1,6 @@
 defmodule Formerer.UserPasswordChange do
   import Comeonin.Bcrypt, only: [checkpw: 2]
   import Ecto.Changeset, only: [add_error: 3, get_field: 2]
-  alias Formerer.{Repo, User}
 
   def check_old_password(changeset) do
     case changeset do

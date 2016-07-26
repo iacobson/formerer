@@ -1,6 +1,5 @@
 defmodule Formerer.UsersControllerTest do
   use Formerer.ConnCase
-  import Formerer.UserFactory
   import Comeonin.Bcrypt, only: [checkpw: 2]
 
   setup %{conn: conn} = config do

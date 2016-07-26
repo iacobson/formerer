@@ -6,6 +6,15 @@ defmodule Formerer.UserFormRetriever do
     Form
     |> where(user_id: ^user.id)
     |> Formerer.Repo.get(id)
+    |> return_form
+  end
+
+  defp return_form(nil) do
+    { :error, "No such form for user" }
+  end
+
+  defp return_form(form) do
+    { :ok, form }
   end
 
 end
