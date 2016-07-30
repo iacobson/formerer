@@ -35,5 +35,10 @@ defmodule Formerer.Endpoint do
     key: "_formerer_key",
     signing_salt: "++Fg7odl"
 
+  if Application.get_env(:formerer, :sql_sandbox) do
+    plug Phoenix.Ecto.SQL.Sandbox
+  end
+
   plug Formerer.Router
+
 end

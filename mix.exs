@@ -40,7 +40,7 @@ defmodule Formerer.Mixfile do
       {:gettext, "~> 0.9"},
       {:comeonin, "~> 2.0"},
       {:uuid, "~> 1.1" },
-      {:hound, "~> 0.8", only: :test},
+      {:hound, "~> 1.0", only: :test},
       {:ex_machina, "~> 1.0", only: :test},
       {:httpotion, "~> 3.0"},
       {:poison, "~> 2.0"},

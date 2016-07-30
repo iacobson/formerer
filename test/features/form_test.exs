@@ -1,13 +1,10 @@
 defmodule Formerer.Feature.FormTest do
+  use Formerer.FeatureCase
+
   import String, only: [contains?: 2]
   alias Formerer.{UserFactory, FormFactory}
 
-  use ExUnit.Case
-  use Hound.Helpers
-
-  hound_session
-
-  setup_all do
+  setup do
     {:ok, user: UserFactory.insert(:user)}
   end
 
@@ -16,6 +13,9 @@ defmodule Formerer.Feature.FormTest do
     login(test_data[:user].email, "ins3cure")
 
     find_element(:css, ".mdl-layout__drawer-button i") |> click
+
+    :timer.sleep(50)
+
     find_element(:css, ".new-form-link") |> click
 
     find_element(:id, "form_name") |> fill_field(form_name)

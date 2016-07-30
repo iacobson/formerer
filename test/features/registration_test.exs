@@ -1,11 +1,8 @@
 defmodule Formerer.Feature.RegistrationTest do
+  use Formerer.FeatureCase
+
   import String, only: [contains?: 2]
   import Formerer.UserFactory, only: [insert: 1]
-
-  use ExUnit.Case
-  use Hound.Helpers
-
-  hound_session
 
   test "user can register" do
     navigate_to("/")

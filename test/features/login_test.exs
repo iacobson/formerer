@@ -1,13 +1,10 @@
 defmodule Formerer.Feature.LoginTest do
+  use Formerer.FeatureCase
+
   import String, only: [contains?: 2]
   import Formerer.UserFactory
 
-  use ExUnit.Case
-  use Hound.Helpers
-
-  hound_session
-
-  setup_all do
+  setup do
     {:ok, user: insert(:user)}
   end
 
@@ -31,7 +28,6 @@ defmodule Formerer.Feature.LoginTest do
     find_element(:link_text, "Logout") |> click
     assert contains?(visible_page_text, "Logged out")
   end
-
 
   defp login(username, password) do
     navigate_to("/login")
