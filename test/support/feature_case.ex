@@ -12,7 +12,7 @@ defmodule Formerer.FeatureCase do
     end
   end
 
-  setup tags do
+  setup _tags do
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(Formerer.Repo)
 
     metadata = Phoenix.Ecto.SQL.Sandbox.metadata_for(Formerer.Repo, self())
